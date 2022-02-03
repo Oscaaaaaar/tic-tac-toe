@@ -9,6 +9,7 @@ header {
   width: 100%;
   text-align: center;
   font-size: 5em;
+  background-color: #fff;
 }
 
 section {
@@ -51,5 +52,17 @@ main {
 button {
   height: 30px;
   width: 100px;
+  margin-top: 20px;
   color: black;
+}
+.or {
+  margin: 20 auto 0 auto;
+}
+
+body {
+  background-color: rgb(20, 189, 172);
+}
+
+input {
+  height: 30px;
 }
