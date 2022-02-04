@@ -213,7 +213,11 @@ var alphaGoMove = function () {
         document.querySelector(".box5").textContent = "X";
         user2.moves.push("5");
       } else if (!checkAny2Spaces(user1)) {
-        var drawOrder = ["1", "3", "7", "9", "2", "4", "6", "8"];
+        if (document.querySelector(".box5").textContent == "O") {
+          var drawOrder = ["1", "3", "7", "9", "2", "4", "6", "8"];
+        } else {
+          var drawOrder = ["2", "4", "6", "8", "1", "3", "7", "9"];
+        }
         for (var i = 0; i < drawOrder.length; i++) {
           if (document.querySelector(`.box${drawOrder[i]}`).textContent == "") {
             document.querySelector(`.box${drawOrder[i]}`).textContent = "X";
