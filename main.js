@@ -28,6 +28,12 @@ var user2 = {
 var submitBtn = document.querySelector(".submit");
 var user1Input = document.querySelector(".user1-input");
 var user2Input = document.querySelector(".user2-input");
+var modal = document.querySelector(".modal");
+var chessBoard = document.querySelectorAll(".chess-board");
+var scoreBoard = document.querySelector("h3");
+var modalDisplay = document.querySelector(".winner-info");
+var currentPlayer = user1;
+var numOfMoves = 0;
 
 var naming = function () {
   user1.name = user1Input.value;
@@ -41,14 +47,7 @@ submitBtn.addEventListener("click", naming);
 
 //
 
-var modal = document.querySelector(".modal");
-var chessBoard = document.querySelectorAll(".chess-board");
-var scoreBoard = document.querySelector("h3");
-var modalDisplay = document.querySelector(".winner-info");
-
 //Create a variable to indicate the current player.
-var currentPlayer = user1;
-var numOfMoves = 0;
 
 //Create a function to update popups and show which player win the game
 
