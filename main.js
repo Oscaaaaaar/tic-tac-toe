@@ -25,6 +25,7 @@ var user2 = {
   score: 0,
 };
 
+var currentPlayer = user1;
 var submitBtn = document.querySelector(".submit");
 var user1Input = document.querySelector(".user1-input");
 var user2Input = document.querySelector(".user2-input");
@@ -32,7 +33,6 @@ var modal = document.querySelector(".modal");
 var chessBoard = document.querySelectorAll(".chess-board");
 var scoreBoard = document.querySelector("h3");
 var modalDisplay = document.querySelector(".winner-info");
-var currentPlayer = user1;
 var numOfMoves = 0;
 
 var naming = function () {
@@ -134,6 +134,7 @@ var alphaGoMove = function () {
   //4. move prior to ["1", "3", "7", "9", "2", "4", "6", "8"];
   var checkAny2s = function (user) {
     for (var i = 0; i < winningComb.length; i++) {
+      console.log("test1");
       if (
         user.moves.includes(winningComb[i][0]) &&
         user.moves.includes(winningComb[i][1]) &&
@@ -161,14 +162,60 @@ var alphaGoMove = function () {
       }
     }
   };
+  var checkAny2Spaces = function () {
+    var bestMove = [];
+    for (var i = 0; i < winningComb.length; i++) {
+      if (
+        user1.moves.includes(winningComb[i][0]) &&
+        document.querySelector(`.box${winningComb[i][1]}`).textContent == "" &&
+        document.querySelector(`.box${winningComb[i][2]}`).textContent == ""
+      ) {
+        bestMove.push(`.box${winningComb[i][1]}`);
+        bestMove.push(`.box${winningComb[i][2]}`);
+      } else if (
+        user1.moves.includes(winningComb[i][1]) &&
+        document.querySelector(`.box${winningComb[i][0]}`).textContent == "" &&
+        document.querySelector(`.box${winningComb[i][2]}`).textContent == ""
+      ) {
+        bestMove.push(`.box${winningComb[i][0]}`);
+        bestMove.push(`.box${winningComb[i][2]}`);
+      } else if (
+        user1.moves.includes(winningComb[i][2]) &&
+        document.querySelector(`.box${winningComb[i][0]}`).textContent == "" &&
+        document.querySelector(`.box${winningComb[i][1]}`).textContent == ""
+      ) {
+        bestMove.push(`.box${winningComb[i][0]}`);
+        bestMove.push(`.box${winningComb[i][1]}`);
+      }
+    }
+    var mostCount = 0;
+    for (var j = 1; j < 10; j++) {
+      var count = 0;
+      for (var i = 0; i < bestMove.length; i++) {
+        if (bestMove[i] == String(j)) {
+          count += 1;
+        }
+        if (count > mostCount) {
+          mostCount = count;
+        }
+      }
+    }
+    var mostContained = String(mostCount);
+    console.log(`.box${mostContained}`);
+    if (mostContained != "0") {
+      document.querySelector(`.box${mostContained}`).textContent = "X";
+      user2.moves.push(`${winningComb[i][2]}`);
+      return true;
+    }
+  };
 
   if (!checkAny2s(user2)) {
     if (!checkAny2s(user1)) {
       if (document.querySelector(".box5").textContent == "") {
         document.querySelector(".box5").textContent = "X";
         user2.moves.push("5");
-      } else {
-        var drawOrder = ["2", "4", "6", "8", "1", "3", "7", "9"];
+      } else if (!checkAny2Spaces(user1)) {
+        var drawOrder = ["1", "3", "7", "9", "2", "4", "6", "8"];
         for (var i = 0; i < drawOrder.length; i++) {
           if (document.querySelector(`.box${drawOrder[i]}`).textContent == "") {
             document.querySelector(`.box${drawOrder[i]}`).textContent = "X";
@@ -179,13 +226,14 @@ var alphaGoMove = function () {
       }
     }
   }
-  //if player have 2 in a row, draw the 3rd box.
-  //if box5 is empty, draw box5
-  //if have one winningset element and others 2 are empty. draw one
-
-  //draw box1-3-7-9
-  //else, draw 2,4,6,8
 };
+
+//if player have 2 in a row, draw the 3rd box.
+//if box5 is empty, draw box5
+//if have one winningset element and others 2 are empty. draw one
+
+//draw box1-3-7-9
+//else, draw 2,4,6,8
 
 var usersMoveVsAlpha = function (event) {
   if (event.target.tagName === "DIV") {
@@ -197,6 +245,7 @@ var usersMoveVsAlpha = function (event) {
       numOfMoves += 1;
       if (!isWon()) {
         switchPlayer();
+        console.log("alpha turn");
         alphaGoMove();
         numOfMoves += 1;
         isWon();
@@ -219,5 +268,4 @@ updateScore();
 
 submitBtn.addEventListener("click", naming);
 document.querySelector(".alpha-go").addEventListener("click", alphaGo);
-
 document.querySelector(".restart").addEventListener("click", restart);
