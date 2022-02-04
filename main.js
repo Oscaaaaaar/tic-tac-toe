@@ -134,7 +134,6 @@ var alphaGoMove = function () {
   //4. move prior to ["1", "3", "7", "9", "2", "4", "6", "8"];
   var checkAny2s = function (user) {
     for (var i = 0; i < winningComb.length; i++) {
-      console.log("test1");
       if (
         user.moves.includes(winningComb[i][0]) &&
         user.moves.includes(winningComb[i][1]) &&
@@ -201,7 +200,6 @@ var alphaGoMove = function () {
       }
     }
     var mostContained = String(mostCount);
-    console.log(`.box${mostContained}`);
     if (mostContained != "0") {
       document.querySelector(`.box${mostContained}`).textContent = "X";
       user2.moves.push(`${winningComb[i][2]}`);
@@ -245,7 +243,6 @@ var usersMoveVsAlpha = function (event) {
       numOfMoves += 1;
       if (!isWon()) {
         switchPlayer();
-        console.log("alpha turn");
         alphaGoMove();
         numOfMoves += 1;
         isWon();
